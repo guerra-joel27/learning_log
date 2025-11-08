@@ -53,9 +53,12 @@ def new_entry(request, topic_id):
         # POST data submitted; process data
         form = EntryForm(data=request.POST)
         if form.is_valid():
+            # creates form but does not save yet until we set topic
             new_entry = form.save(commit=False)
             new_entry.topic = topic
+            # now we can save it now that we set the topic
             new_entry.save()
+            # and send back to the other page
             return redirect("learning_logs:topic", topic_id=topic_id)
 
     # display a blank or invalid form
